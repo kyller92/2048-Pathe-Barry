@@ -3,10 +3,10 @@
         <!-- <canvas width="300" height="300" style="border:1px solid #BBB;" v-insert-message="exampleContent"></canvas> -->
         <div class="gamearea">
             <div v-for="(horizon,index) in grille.squares" v-bind:key="index" :index="index">
-                <span class="cases" display: inline v-for="(vertic,index) in horizon" v-bind:key="index" :index="index">
-                    
-                    {{vertic}}
-                    
+                <span display: inline v-for="(vertic,index) in horizon" v-bind:key="index" :index="index">
+                    <span :class="['case-'+vertic]">
+                        {{vertic}}
+                    </span>
                 </span>
             </div>
         </div>
@@ -28,7 +28,8 @@ export default {
     },
     data () {
         return {
-            grille:''
+            grille:'',
+            cases:''
         }
     },
     methods: {
@@ -51,6 +52,7 @@ export default {
                     break;
             }
             console.log(Board.squares)
+            
             self.$forceUpdate()
             }
             
