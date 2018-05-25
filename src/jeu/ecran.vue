@@ -1,7 +1,14 @@
 <template>
     <div class="Plateau" v-bind:style="{'text-align':'  center'}" >
-        <div class='temps'>Temps écoulé : {{timer}}.{{textmill}}</div>
-        <div class="gamearea">
+        <div class='temps'>
+            <p v-if="etat == 'stopped'"><button class="button" @click="launchtimer">Démarrer</button></p>
+            <p v-else>Temps écoulé : {{timer}}.{{textmill}}</p>
+        </div>
+         <div v-show="over==true" class='gameover'>
+             
+            <p>GAME OVER !</p>
+        </div>
+        <div :class="['gamearea'+etat]">
             <div v-for="(horizon,index) in grille.squares" v-bind:key="index" :index="index">
                 <span display: inline v-for="(vertic,index) in horizon" v-bind:key="index" :index="index">
                     <span :class="['case-'+vertic]">
@@ -32,31 +39,42 @@ export default {
             cases:'',
             timer:0,
             timermill:0,
-            textmill:''
+            textmill:'',
+            etat:'stopped',
+            over:'false'
         }
     },
     methods: {
         touche: function(){
         var self = this;
-        
+        self.over=false;
         window.addEventListener("keydown", function(e) {
-            switch(e.keyCode){
-                case 38:
-                    Board.move ('left')
-                    break;
-                case 37:
-                    Board.move ('up')
-                    break;
-                case 39:
-                    Board.move ('down')
-                    break;
-                case 40:
-                    Board.move ('right')
-                    break;
-            }
-            console.log(Board.squares)
-            
-            self.$forceUpdate()
+            if(self.etat=='launched'){
+                switch(e.keyCode){
+                    case 38:
+                        Board.move ('left')
+                        break;
+                    case 37:
+                        Board.move ('up')
+                        break;
+                    case 39:
+                        Board.move ('down')
+                        break;
+                    case 40:
+                        Board.move ('right')
+                        break;
+                    }
+                // console.log(Board.squares)
+                
+                
+
+                self.over=Board.over;
+                if(self.over==true){
+                   console.log(self.over) 
+                   self.etat='stopped'
+                }
+                self.$forceUpdate()
+                }
             }
         )},
 
@@ -75,12 +93,17 @@ export default {
                 this.textmill=0
                 this.timermill=0;
             }
+        },
+        launchtimer: function(){
+            
+            this.etat='launched';
+            setInterval(this.temps,1000);
+            setInterval(this.tempsmill,10);
+            console.log(this.etat);
         }
     },
     mounted() {
-        this.touche();
-        setInterval(this.temps,1000);
-        setInterval(this.tempsmill,10);
+        this.touche()
   }
 
 }
