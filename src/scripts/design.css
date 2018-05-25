@@ -81,3 +81,14 @@ body{
     border-color: black; 
     border-radius: 10px;
 }
+
+.temps{
+    padding-left:3%;
+    padding-top:200px;
+    padding-right:0;
+    float: left;
+    font-size:40px;
+    color:rgb(40, 0, 185);
+    z-index: 100;
+    position: absolute;
+}
