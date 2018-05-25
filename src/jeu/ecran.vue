@@ -32,26 +32,50 @@ export default {
         }
     },
     methods: {
+        touche: function(){
+        var self = this;
         
-    },
-    mounted() {
         window.addEventListener("keydown", function(e) {
             switch(e.keyCode){
                 case 38:
-                    Board.move ('up')
-                    break;
-                case 37:
                     Board.move ('left')
                     break;
-            //     case 39:
-            //         Board.move ('right')
-            //         break;
-            //     case 40:
-            //         Board.move ('down')
-            //         break;
+                case 37:
+                    Board.move ('up')
+                    break;
+                case 39:
+                    Board.move ('down')
+                    break;
+                case 40:
+                    Board.move ('right')
+                    break;
             }
             console.log(Board.squares)
-        });
+            self.$forceUpdate()
+            }
+            
+        )}
+    },
+    mounted() {
+        this.touche();
+        
+        // window.addEventListener("keydown", function(e) {
+        //     switch(e.keyCode){
+        //         case 38:
+        //             Board.move ('up')
+        //             break;
+        //         case 37:
+        //             Board.move ('left')
+        //             break;
+        //     //     case 39:
+        //     //         Board.move ('right')
+        //     //         break;
+        //     //     case 40:
+        //     //         Board.move ('down')
+        //     //         break;
+        //     }
+        //     console.log(Board.squares)
+        // });
         
   }
 
